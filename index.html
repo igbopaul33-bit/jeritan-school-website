@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeritan International School, Ekureku | Excellence, Knowledge, & Character</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts (Poppins & Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0D47A1',     // Deep Royal Blue
+                            darkblue: '#0A337A',
+                            gold: '#FFB300',     // Bright Gold
+                            goldhover: '#E6A100',
+                            accent: '#F4F7FB'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .hero-bg {
+            background: linear-gradient(rgba(13, 71, 161, 0.88), rgba(10, 51, 122, 0.92)), 
+                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-active {
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 flex flex-col min-h-screen">
+
+    <!-- Top Announcement / Contact Bar -->
+    <div class="bg-brand-darkblue text-white text-xs md:text-sm py-2 px-4 border-b border-blue-900">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-6">
+                <span class="flex items-center gap-2"><i class="fas fa-location-dot text-brand-gold"></i> Ekureku, Abi LGA, Cross River State</span>
+                <span class="hidden md:flex items-center gap-2"><i class="fas fa-phone text-brand-gold"></i> +234 803 123 4567</span>
+                <span class="hidden lg:flex items-center gap-2"><i class="fas fa-envelope text-brand-gold"></i> info@jeritanschools.edu.ng</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="bg-brand-gold text-brand-darkblue px-2 py-0.5 rounded font-bold text-xs uppercase tracking-wider">Admissions Open</span>
+                <span>2026/2027 Academic Session</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
+            <!-- Brand Logo / Name -->
+            <a href="#home" class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-brand-blue rounded-full flex items-center justify-center text-brand-gold text-2xl font-black border-2 border-brand-gold shadow-sm">
+                    JIS
+                </div>
+                <div>
+                    <h1 class="font-heading font-extrabold text-lg sm:text-xl text-brand-blue leading-tight">JERITAN INTERNATIONAL</h1>
+                    <p class="text-xs font-semibold text-gray-500 tracking-wider uppercase">School, Ekureku</p>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center gap-6 font-medium text-sm text-gray-700">
+                <a href="#home" class="hover:text-brand-blue transition">Home</a>
+                <a href="#about" class="hover:text-brand-blue transition">About Us</a>
+                <a href="#academics" class="hover:text-brand-blue transition">Academics</a>
+                <a href="#admissions" class="hover:text-brand-blue transition">Admissions</a>
+                <a href="#news" class="hover:text-brand-blue transition">News & Events</a>
+                <a href="#contact" class="hover:text-brand-blue transition">Contact Us</a>
+            </nav>
+
+            <!-- CTA Buttons -->
+            <div class="hidden sm:flex items-center gap-3">
+                <button onclick="openModal('portalModal')" class="px-4 py-2 border-2 border-brand-blue text-brand-blue rounded-lg font-semibold text-sm hover:bg-brand-blue hover:text-white transition">
+                    <i class="fas fa-user-lock mr-1.5"></i> Portal
+                </button>
+                <button onclick="openModal('applyModal')" class="px-4 py-2 bg-brand-gold text-brand-darkblue rounded-lg font-bold text-sm hover:bg-brand-goldhover shadow-md hover:shadow-lg transition">
+                    Apply Now
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobileMenuBtn" class="lg:hidden text-gray-700 hover:text-brand-blue text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-gray-100 px-4 pt-3 pb-6 space-y-3 shadow-lg">
+            <a href="#home" class="block py-2 text-gray-700 font-medium hover:text-brand-blue">Home</a>
+            <a href="#about" class="block py-2 text-gray-700 font-medium hover:text-brand-blue">About Us</a>
+            <a href="#academics" class="block py-2 text-gray-700 font-medium hover:text-brand-blue">Academics</a>
+            <a href="#admissions" class="block py-2 text-gray-700 font-medium hover:text-brand-blue">Admissions</a>
+            <a href="#news" class="block py-2 text-gray-700 font-medium hover:text-brand-blue">News & Events</a>
+            <a href="#contact" class="block py-2 text-gray-700 font-medium hover:text-brand-blue">Contact Us</a>
+            <div class="pt-2 flex flex-col gap-2">
+                <button onclick="openModal('portalModal')" class="w-full py-2.5 border-2 border-brand-blue text-brand-blue rounded-lg font-semibold text-sm">
+                    <i class="fas fa-user-lock mr-1.5"></i> Student/Parent Portal
+                </button>
+                <button onclick="openModal('applyModal')" class="w-full py-2.5 bg-brand-gold text-brand-darkblue rounded-lg font-bold text-sm">
+                    Apply Now
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <section id="home" class="hero-bg text-white py-24 lg:py-36 px-4">
+            <div class="max-w-5xl mx-auto text-center space-y-6">
+                <div class="inline-block bg-brand-gold/20 border border-brand-gold/40 backdrop-blur-sm px-4 py-1.5 rounded-full text-brand-gold font-semibold text-sm">
+                    ✨ Welcome to Jeritan International School
+                </div>
+                <h1 class="font-heading text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+                    Nurturing Tomorrow's Leaders Through <span class="text-brand-gold">Excellence & Integrity</span>
+                </h1>
+                <p class="text-base sm:text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                    Providing world-class nursery, primary, and secondary education in Ekureku, Abi LGA. Empowering students with academic rigor, moral strength, and practical skills.
+                </p>
+                <div class="pt-4 flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <button onclick="openModal('applyModal')" class="w-full sm:w-auto px-8 py-4 bg-brand-gold text-brand-darkblue rounded-lg font-bold text-lg hover:bg-brand-goldhover shadow-xl hover:shadow-2xl transition transform hover:-translate-y-0.5">
+                        <i class="fas fa-graduation-cap mr-2"></i> Apply for 2026/2027 Session
+                    </button>
+                    <a href="#academics" class="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md rounded-lg font-semibold text-lg transition">
+                        Explore Programs <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Info Highlights -->
+        <section class="bg-brand-blue text-white py-10">
+            <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                <div class="p-4 border-b sm:border-b-0 sm:border-r border-blue-800">
+                    <div class="text-3xl text-brand-gold mb-2"><i class="fas fa-microscope"></i></div>
+                    <h3 class="font-bold text-lg">Modern STEM Labs</h3>
+                    <p class="text-xs text-blue-200 mt-1">Fully equipped ICT & Science laboratories</p>
+                </div>
+                <div class="p-4 border-b sm:border-b-0 lg:border-r border-blue-800">
+                    <div class="text-3xl text-brand-gold mb-2"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <h3 class="font-bold text-lg">Expert Educators</h3>
+                    <p class="text-xs text-blue-200 mt-1">Qualified & passionate teaching faculty</p>
+                </div>
+                <div class="p-4 border-b sm:border-b-0 sm:border-r border-blue-800">
+                    <div class="text-3xl text-brand-gold mb-2"><i class="fas fa-trophy"></i></div>
+                    <h3 class="font-bold text-lg">Excellence Record</h3>
+                    <p class="text-xs text-blue-200 mt-1">Top performance in regional & national exams</p>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl text-brand-gold mb-2"><i class="fas fa-futbol"></i></div>
+                    <h3 class="font-bold text-lg">Holistic Growth</h3>
+                    <p class="text-xs text-blue-200 mt-1">Sports, arts, music, and leadership clubs</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <span class="text-brand-blue font-bold text-sm tracking-widest uppercase">About Our School</span>
+                        <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-gray-900 mt-2 mb-6">
+                            Building a Legacy of Knowledge & Character in Ekureku
+                        </h2>
+                        <p class="text-gray-600 leading-relaxed mb-4">
+                            Jeritan International School was founded with a clear vision: to bring top-tier, international-standard education to Ekureku, Abi Local Government Area, and surrounding communities in Cross River State.
+                        </p>
+                        <p class="text-gray-600 leading-relaxed mb-6">
+                            We combine a rigorous academic curriculum with character formation, ensuring that our students excel not only in examinations like BECE, WAEC, and NECO, but also develop into responsible, innovative future leaders.
+                        </p>
+                        
+                        <!-- Core Values Grid -->
+                        <div class="grid grid-cols-2 gap-4 pt-2">
+                            <div class="flex items-start gap-3">
+                                <div class="bg-brand-blue/10 p-2 rounded-lg text-brand-blue"><i class="fas fa-check-circle"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Integrity</h4>
+                                    <p class="text-xs text-gray-500">Upright moral values</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="bg-brand-blue/10 p-2 rounded-lg text-brand-blue"><i class="fas fa-check-circle"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Excellence</h4>
+                                    <p class="text-xs text-gray-500">Uncompromising standards</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="bg-brand-blue/10 p-2 rounded-lg text-brand-blue"><i class="fas fa-check-circle"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Innovation</h4>
+                                    <p class="text-xs text-gray-500">Modern learning tools</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="bg-brand-blue/10 p-2 rounded-lg text-brand-blue"><i class="fas fa-check-circle"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Leadership</h4>
+                                    <p class="text-xs text-gray-500">Confident global citizens</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Proprietor Message Card -->
+                    <div class="bg-brand-accent p-8 rounded-2xl border border-gray-200 relative shadow-md">
+                        <div class="text-brand-gold text-4xl mb-4"><i class="fas fa-quote-left"></i></div>
+                        <p class="text-gray-700 italic leading-relaxed mb-6">
+                            "At Jeritan International School, we believe every child possesses unique talents waiting to be nurtured. Our mission is to provide an encouraging environment where intellect meets character, preparing our pupils to thrive anywhere in the world."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 bg-brand-blue text-white rounded-full flex items-center justify-center font-bold text-xl border-2 border-brand-gold">
+                                JS
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-lg">Jeritan Executive Management</h4>
+                                <p class="text-sm text-brand-blue font-semibold">Jeritan International School, Ekureku</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Academics Section -->
+        <section id="academics" class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="text-brand-blue font-bold text-sm tracking-widest uppercase">Academic Divisions</span>
+                    <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-gray-900 mt-2">Comprehensive Learning Pathways</h2>
+                    <p class="text-gray-600 mt-3">From early foundation to senior secondary graduation, we tailor our teaching methods to each developmental stage.</p>
+                </div>
+
+                <!-- Academic Tabs Navigation -->
+                <div class="flex justify-center mb-8 border-b border-gray-200">
+                    <div class="flex space-x-2 sm:space-x-4 overflow-x-auto pb-2">
+                        <button onclick="switchTab('nursery')" id="tab-nursery" class="acad-tab px-5 py-2.5 font-bold text-sm rounded-t-lg bg-brand-blue text-white transition">Nursery & Primary</button>
+                        <button onclick="switchTab('jss')" id="tab-jss" class="acad-tab px-5 py-2.5 font-bold text-sm rounded-t-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Junior Secondary (JSS)</button>
+                        <button onclick="switchTab('sss')" id="tab-sss" class="acad-tab px-5 py-2.5 font-bold text-sm rounded-t-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Senior Secondary (SSS)</button>
+                    </div>
+                </div>
+
+                <!-- Tab Contents -->
+                <div id="content-nursery" class="acad-content bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Foundation Stage</span>
+                            <h3 class="font-heading text-2xl font-bold text-gray-900 mt-3 mb-4">Nursery & Primary School</h3>
+                            <p class="text-gray-600 mb-4">Focuses on child development, literacy, numeracy, creative arts, and social communication skills in a safe, fun, and modern learning setup.</p>
+                            <ul class="space-y-2 text-gray-700 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-gold"></i> Montessori-inspired Early Childhood Learning</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-gold"></i> Phonics & Expressive Communication</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-gold"></i> Elementary Mathematics & Science Skills</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-gold"></i> Computer Literacy from Early Grade</li>
+                            </ul>
+                        </div>
+                        <div class="bg-brand-accent p-6 rounded-xl border border-blue-100">
+                            <h4 class="font-bold text-brand-blue mb-3">Key Highlights</h4>
+                            <p class="text-sm text-gray-600 leading-relaxed mb-4">Interactive classrooms, engaging educational play areas, and personalized teacher attention to ensure every child builds a rock-solid academic foundation.</p>
+                            <div class="p-3 bg-white rounded-lg border text-xs text-gray-500 font-semibold">Ages: 3 - 11 Years | Standard Nigerian Curriculum</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content-jss" class="acad-content hidden bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Middle Years</span>
+                            <h3 class="font-heading text-2xl font-bold text-gray-900 mt-3 mb-4">Junior Secondary School (JSS 1 - JSS 3)</h3>
+                            <p class="text-gray-600 mb-4">Prepares students for basic certificate examinations with a strong emphasis on core sciences, humanities, basic technology, and digital literacy.</p>
+                            <ul class="space-y-2 text-gray-700 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-blue"></i> Mathematics & Integrated Science</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-blue"></i> Introductory Technology & Computer Science</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-blue"></i> Social Studies, Civic & National Values</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check text-brand-blue"></i> BECE Examination Preparation</li>
+                            </ul>
+                        </div>
+                        <div class="bg-brand-accent p-6 rounded-xl border border-blue-100">
+                            <h4 class="font-bold text-brand-blue mb-3">Skill Building</h4>
+                            <p class="text-sm text-gray-600 leading-relaxed mb-4">Focus on critical thinking, practical science practicals, introductory coding, public speaking, and sports activities.</p>
+                            <div class="p-3 bg-white rounded-lg border text-xs text-gray-500 font-semibold">Grades: JSS 1 to JSS 3 | Examination: BECE / Junior WAEC</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content-sss" class="acad-content hidden bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="border border-gray-200 p-6 rounded-xl hover:border-brand-blue transition">
+                            <div class="w-10 h-10 bg-blue-100 text-brand-blue rounded-lg flex items-center justify-center font-bold mb-4"><i class="fas fa-atom"></i></div>
+                            <h4 class="font-bold text-lg text-gray-900 mb-2">Science Stream</h4>
+                            <p class="text-sm text-gray-600 mb-3">Physics, Chemistry, Biology, Further Mathematics, Agricultural Science.</p>
+                            <span class="text-xs font-bold text-brand-blue">Career Path: Medicine, Engineering, Tech</span>
+                        </div>
+                        <div class="border border-gray-200 p-6 rounded-xl hover:border-brand-blue transition">
+                            <div class="w-10 h-10 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center font-bold mb-4"><i class="fas fa-chart-line"></i></div>
+                            <h4 class="font-bold text-lg text-gray-900 mb-2">Commercial Stream</h4>
+                            <p class="text-sm text-gray-600 mb-3">Financial Accounting, Economics, Commerce, Office Practice.</p>
+                            <span class="text-xs font-bold text-brand-blue">Career Path: Finance, Business, Accounting</span>
+                        </div>
+                        <div class="border border-gray-200 p-6 rounded-xl hover:border-brand-blue transition">
+                            <div class="w-10 h-10 bg-purple-100 text-purple-700 rounded-lg flex items-center justify-center font-bold mb-4"><i class="fas fa-book-open"></i></div>
+                            <h4 class="font-bold text-lg text-gray-900 mb-2">Arts & Humanities</h4>
+                            <p class="text-sm text-gray-600 mb-3">Literature in English, Government, History, Christian Religious Studies.</p>
+                            <span class="text-xs font-bold text-brand-blue">Career Path: Law, Journalism, Public Policy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admissions Section -->
+        <section id="admissions" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-brand-blue font-bold text-sm tracking-widest uppercase">Join Our Community</span>
+                    <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-gray-900 mt-2">Simple 4-Step Admission Process</h2>
+                    <p class="text-gray-600 mt-2">We make enrolling your child straightforward and transparent.</p>
+                </div>
+
+                <!-- 4 Steps -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="relative bg-brand-accent p-6 rounded-2xl border border-gray-100 text-center">
+                        <div class="w-12 h-12 bg-brand-blue text-brand-gold font-black rounded-full flex items-center justify-center mx-auto mb-4 text-xl shadow">1</div>
+                        <h3 class="font-bold text-lg text-gray-900 mb-2">Submit Application</h3>
+                        <p class="text-sm text-gray-600">Fill out our online application form or visit our administrative office in Ekureku.</p>
+                    </div>
+
+                    <div class="relative bg-brand-accent p-6 rounded-2xl border border-gray-100 text-center">
+                        <div class="w-12 h-12 bg-brand-blue text-brand-gold font-black rounded-full flex items-center justify-center mx-auto mb-4 text-xl shadow">2</div>
+                        <h3 class="font-bold text-lg text-gray-900 mb-2">Entrance Exam</h3>
+                        <p class="text-sm text-gray-600">Prospective student sits for placement assessment test in core subjects.</p>
+                    </div>
+
+                    <div class="relative bg-brand-accent p-6 rounded-2xl border border-gray-100 text-center">
+                        <div class="w-12 h-12 bg-brand-blue text-brand-gold font-black rounded-full flex items-center justify-center mx-auto mb-4 text-xl shadow">3</div>
+                        <h3 class="font-bold text-lg text-gray-900 mb-2">Parent Interview</h3>
+                        <p class="text-sm text-gray-600">Interactive session with parents/guardians and the school admissions committee.</p>
+                    </div>
+
+                    <div class="relative bg-brand-accent p-6 rounded-2xl border border-gray-100 text-center">
+                        <div class="w-12 h-12 bg-brand-blue text-brand-gold font-black rounded-full flex items-center justify-center mx-auto mb-4 text-xl shadow">4</div>
+                        <h3 class="font-bold text-lg text-gray-900 mb-2">Enrollment</h3>
+                        <p class="text-sm text-gray-600">Receive acceptance letter, pay school fees, and pick up school uniform/supplies.</p>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <button onclick="openModal('applyModal')" class="px-8 py-3.5 bg-brand-gold text-brand-darkblue rounded-lg font-bold hover:bg-brand-goldhover shadow-lg transition">
+                        Fill Online Application Form
+                    </button>
+                    <button onclick="downloadMockForm()" class="px-8 py-3.5 border-2 border-brand-blue text-brand-blue rounded-lg font-bold hover:bg-brand-blue hover:text-white transition">
+                        <i class="fas fa-file-pdf mr-2"></i> Download Admission Brochure (PDF)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- News & Events Section -->
+        <section id="news" class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                    <div>
+                        <span class="text-brand-blue font-bold text-sm tracking-widest uppercase">Updates & Events</span>
+                        <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-gray-900 mt-2">Latest News & School Calendar</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- News Item 1 -->
+                    <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition">
+                        <div class="h-48 bg-gray-200 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=600&auto=format&fit=crop');"></div>
+                        <div class="p-6">
+                            <span class="text-xs font-bold text-brand-blue uppercase tracking-wider">Academic Excellence</span>
+                            <h3 class="font-bold text-xl text-gray-900 mt-2 mb-3">Jeritan Students Record Outstanding BECE Results</h3>
+                            <p class="text-sm text-gray-600 mb-4">Our JSS 3 students recorded 98% distinction pass rate in the recent basic education certificate examination.</p>
+                            <span class="text-xs text-gray-400"><i class="far fa-calendar mr-1"></i> October 14, 2026</span>
+                        </div>
+                    </div>
+
+                    <!-- News Item 2 -->
+                    <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition">
+                        <div class="h-48 bg-gray-200 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=600&auto=format&fit=crop');"></div>
+                        <div class="p-6">
+                            <span class="text-xs font-bold text-brand-blue uppercase tracking-wider">Facilities</span>
+                            <h3 class="font-bold text-xl text-gray-900 mt-2 mb-3">Commissioning of Ultra-Modern ICT Computer Center</h3>
+                            <p class="text-sm text-gray-600 mb-4">New computer room equipped with high-speed internet installed to boost digital literacy for all classes.</p>
+                            <span class="text-xs text-gray-400"><i class="far fa-calendar mr-1"></i> September 28, 2026</span>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Events Card -->
+                    <div class="bg-brand-blue text-white rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-heading text-xl font-bold text-brand-gold mb-4 border-b border-blue-800 pb-2">
+                                <i class="far fa-calendar-alt mr-2"></i> Upcoming Events
+                            </h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-4">
+                                    <div class="bg-brand-gold text-brand-darkblue px-3 py-1.5 rounded-lg text-center font-bold shrink-0">
+                                        <span class="block text-xs uppercase">Nov</span>
+                                        <span class="text-lg">15</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-sm">Inter-House Sports Competition</h4>
+                                        <p class="text-xs text-blue-200">School Sports Ground, Ekureku</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="bg-brand-gold text-brand-darkblue px-3 py-1.5 rounded-lg text-center font-bold shrink-0">
+                                        <span class="block text-xs uppercase">Dec</span>
+                                        <span class="text-lg">08</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-sm">PTA General Meeting</h4>
+                                        <p class="text-xs text-blue-200">School Main Auditorium @ 10:00 AM</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="bg-brand-gold text-brand-darkblue px-3 py-1.5 rounded-lg text-center font-bold shrink-0">
+                                        <span class="block text-xs uppercase">Dec</span>
+                                        <span class="text-lg">18</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-sm">End of Term Cultural & Carol Day</h4>
+                                        <p class="text-xs text-blue-200">Exhibition & Student Performances</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="openModal('applyModal')" class="mt-6 w-full py-2.5 bg-brand-gold text-brand-darkblue rounded-lg font-bold text-sm hover:bg-brand-goldhover transition">
+                            Enroll Student Today
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Contact Information -->
+                    <div>
+                        <span class="text-brand-blue font-bold text-sm tracking-widest uppercase">Get In Touch</span>
+                        <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-gray-900 mt-2 mb-6">We Are Always Ready to Welcome You</h2>
+                        <p class="text-gray-600 mb-8">Have questions about admission fees, curriculum, or school transportation? Send us a message or visit our campus in Ekureku.</p>
+
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-brand-blue/10 text-brand-blue rounded-xl flex items-center justify-center shrink-0 text-xl font-bold">
+                                    <i class="fas fa-location-dot"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Campus Address</h4>
+                                    <p class="text-sm text-gray-600">Jeritan International School Campus, Ekureku, Abi Local Government Area, Cross River State, Nigeria.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-brand-blue/10 text-brand-blue rounded-xl flex items-center justify-center shrink-0 text-xl font-bold">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Phone Lines</h4>
+                                    <p class="text-sm text-gray-600">+234 803 123 4567 | +234 812 987 6543</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-brand-blue/10 text-brand-blue rounded-xl flex items-center justify-center shrink-0 text-xl font-bold">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900">Email Address</h4>
+                                    <p class="text-sm text-gray-600">info@jeritanschools.edu.ng | admissions@jeritanschools.edu.ng</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Styled Location Card -->
+                        <div class="mt-8 bg-brand-accent p-6 rounded-2xl border border-gray-200">
+                            <h4 class="font-bold text-gray-900 mb-2 flex items-center gap-2"><i class="fas fa-map-marked-alt text-brand-blue"></i> Location Map (Ekureku, Abi LGA)</h4>
+                            <p class="text-xs text-gray-500 mb-4">Easily accessible along the main Ekureku central road network.</p>
+                            <div class="w-full h-36 bg-blue-100 rounded-lg flex items-center justify-center text-gray-500 text-sm font-medium border border-blue-200">
+                                <i class="fas fa-map-pin text-brand-blue mr-2"></i> Ekureku, Cross River State Map Location
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-sm">
+                        <h3 class="font-heading text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
+                        <form id="contactForm" onsubmit="handleContactSubmit(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Your Full Name *</label>
+                                <input type="text" required placeholder="e.g. Mr. John Okoi" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition">
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Email Address *</label>
+                                    <input type="email" required placeholder="john@example.com" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number *</label>
+                                    <input type="tel" required placeholder="08012345678" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Subject</label>
+                                <select class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition">
+                                    <option>General Inquiry</option>
+                                    <option>Admission Process</option>
+                                    <option>School Fees Structure</option>
+                                    <option>Job Application</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Message *</label>
+                                <textarea required rows="4" placeholder="How can we help you?" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition"></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-3.5 bg-brand-blue text-white rounded-lg font-bold hover:bg-brand-darkblue transition shadow-md">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-darkblue text-white pt-16 pb-8 border-t border-blue-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <!-- Col 1: Brand Info -->
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-brand-gold text-brand-darkblue font-black rounded-full flex items-center justify-center text-xl">
+                            JIS
+                        </div>
+                        <span class="font-heading font-extrabold text-lg text-white">JERITAN INT'L</span>
+                    </div>
+                    <p class="text-sm text-blue-200 mb-4 leading-relaxed">
+                        Jeritan International School Ekureku is committed to academic excellence, moral training, and holistic student growth in Cross River State.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-9 h-9 bg-blue-900 hover:bg-brand-gold hover:text-brand-darkblue rounded-full flex items-center justify-center transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-9 h-9 bg-blue-900 hover:bg-brand-gold hover:text-brand-darkblue rounded-full flex items-center justify-center transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-9 h-9 bg-blue-900 hover:bg-brand-gold hover:text-brand-darkblue rounded-full flex items-center justify-center transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-9 h-9 bg-blue-900 hover:bg-brand-gold hover:text-brand-darkblue rounded-full flex items-center justify-center transition"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h4 class="font-bold text-brand-gold mb-4 text-base">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-blue-200">
+                        <li><a href="#about" class="hover:text-white transition">About Our School</a></li>
+                        <li><a href="#academics" class="hover:text-white transition">Academic Programs</a></li>
+                        <li><a href="#admissions" class="hover:text-white transition">Admissions Process</a></li>
+                        <li><a href="#news" class="hover:text-white transition">News & Announcements</a></li>
+                        <li><a href="#contact" class="hover:text-white transition">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Portal & Services -->
+                <div>
+                    <h4 class="font-bold text-brand-gold mb-4 text-base">Portals & Tools</h4>
+                    <ul class="space-y-2 text-sm text-blue-200">
+                        <li><button onclick="openModal('portalModal')" class="hover:text-white transition">Student Result Checker</button></li>
+                        <li><button onclick="openModal('portalModal')" class="hover:text-white transition">Parent Portal Login</button></li>
+                        <li><button onclick="openModal('applyModal')" class="hover:text-white transition">Online Admission Application</button></li>
+                        <li><button onclick="downloadMockForm()" class="hover:text-white transition">Download Forms</button></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Contact Brief -->
+                <div>
+                    <h4 class="font-bold text-brand-gold mb-4 text-base">Location</h4>
+                    <p class="text-sm text-blue-200 leading-relaxed">
+                        Jeritan International School,<br>
+                        Ekureku, Abi LGA,<br>
+                        Cross River State, Nigeria.
+                    </p>
+                    <p class="text-sm text-blue-200 mt-2">Phone: +234 803 123 4567</p>
+                </div>
+            </div>
+
+            <div class="border-t border-blue-900/80 pt-8 text-center text-xs text-blue-300">
+                <p>&copy; <span id="year"></span> Jeritan International School, Ekureku. All Rights Reserved. Designed for GitHub Pages.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- MODAL 1: Online Application Form Modal -->
+    <div id="applyModal" class="modal opacity-0 pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl">
+            <!-- Close Button -->
+            <button onclick="closeModal('applyModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold">&times;</button>
+            
+            <div class="mb-6">
+                <span class="text-xs font-bold text-brand-blue uppercase tracking-widest">Admission Application</span>
+                <h3 class="font-heading text-2xl font-bold text-gray-900">Student Application Form</h3>
+                <p class="text-sm text-gray-500">Academic Session 2026 / 2027</p>
+            </div>
+
+            <form id="admissionForm" onsubmit="handleApplySubmit(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Student's First Name *</label>
+                        <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Student's Last Name *</label>
+                        <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Date of Birth *</label>
+                        <input type="date" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Gender *</label>
+                        <select required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue outline-none">
+                            <option value="">Select Gender</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Class Applying For *</label>
+                    <select required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue outline-none">
+                        <option value="">Select Class</option>
+                        <option>Nursery 1 - 3</option>
+                        <option>Primary 1 - 6</option>
+                        <option>JSS 1 - 3</option>
+                        <option>SSS 1 (Science)</option>
+                        <option>SSS 1 (Commercial)</option>
+                        <option>SSS 1 (Arts)</option>
+                    </select>
+                </div>
+
+                <div class="border-t border-gray-200 pt-4 mt-4">
+                    <h4 class="text-sm font-bold text-gray-800 mb-3">Parent / Guardian Information</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Parent Full Name *</label>
+                            <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Phone Number *</label>
+                            <input type="tel" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue outline-none">
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Residential Address in Ekureku / Environs *</label>
+                        <textarea required rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue outline-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex justify-end gap-3">
+                    <button type="button" onclick="closeModal('applyModal')" class="px-5 py-2.5 border rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-100">Cancel</button>
+                    <button type="submit" class="px-6 py-2.5 bg-brand-gold text-brand-darkblue rounded-lg text-sm font-bold hover:bg-brand-goldhover shadow">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- MODAL 2: Student & Parent Portal Modal -->
+    <div id="portalModal" class="modal opacity-0 pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl">
+            <!-- Close Button -->
+            <button onclick="closeModal('portalModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold">&times;</button>
+            
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-brand-blue text-brand-gold rounded-full flex items-center justify-center mx-auto mb-3 font-bold text-xl">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h3 class="font-heading text-xl font-bold text-gray-900">Jeritan School Portal</h3>
+                <p class="text-xs text-gray-500">Check Results & Pay School Fees</p>
+            </div>
+
+            <form id="portalForm" onsubmit="handlePortalLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Student Registration ID / Admission No *</label>
+                    <input type="text" placeholder="e.g. JIS/2025/089" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Password / Pin *</label>
+                    <input type="password" required placeholder="••••••••" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue outline-none">
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                    <label class="flex items-center gap-1.5 text-gray-600">
+                        <input type="checkbox" class="rounded border-gray-300"> Remember ID
+                    </label>
+                    <a href="#" class="text-brand-blue font-semibold hover:underline">Forgot Pin?</a>
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-blue text-white rounded-lg font-bold text-sm hover:bg-brand-darkblue transition shadow">
+                    Login to Dashboard
+                </button>
+            </form>
+
+            <div class="mt-6 pt-4 border-t text-center text-xs text-gray-500">
+                Need portal access support? Contact <span class="text-brand-blue font-semibold">portal@jeritanschools.edu.ng</span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Set Current Year in Footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle Logic
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on clicking any mobile menu link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Academic Tab Switcher
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.acad-content');
+            contents.forEach(content => content.classList.add('hidden'));
+
+            // Reset all tab button styles
+            const tabs = document.querySelectorAll('.acad-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('bg-brand-blue', 'text-white');
+                tab.classList.add('bg-gray-200', 'text-gray-700');
+            });
+
+            // Show current tab content & active style
+            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+            const activeTab = document.getElementById(`tab-${tabName}`);
+            activeTab.classList.remove('bg-gray-200', 'text-gray-700');
+            activeTab.classList.add('bg-brand-blue', 'text-white');
+        }
+
+        // Modal Open / Close Logic
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('modal-active');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('modal-active');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+        }
+
+        // Close modal when clicking on backdrop
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('modal-active');
+                document.body.style.overflow = 'auto';
+            }
+        };
+
+        // Handle Application Submission
+        function handleApplySubmit(e) {
+            e.preventDefault();
+            alert("Thank you! Your application for Jeritan International School, Ekureku has been successfully submitted. Our admissions team will contact you shortly.");
+            closeModal('applyModal');
+            e.target.reset();
+        }
+
+        // Handle Portal Login Simulation
+        function handlePortalLogin(e) {
+            e.preventDefault();
+            alert("Portal Access Simulated: Verification successful! Redirecting to student result and fee management portal...");
+            closeModal('portalModal');
+            e.target.reset();
+        }
+
+        // Handle Contact Form Submission
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            alert("Your message has been sent successfully to Jeritan International School admin desk. We will respond promptly.");
+            e.target.reset();
+        }
+
+        // Download Mock Brochure/Form Trigger
+        function downloadMockForm() {
+            const textContent = "JERITAN INTERNATIONAL SCHOOL, EKUREKU\nAdmission Information & Application Form Sheet\nAddress: Ekureku, Abi LGA, Cross River State, Nigeria.\n\nPlease complete this physical form and present it to the administrative desk along with 2 passport photographs and birth certificate copy.";
+            const blob = new Blob([textContent], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Jeritan_International_School_Admission_Form.txt';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
